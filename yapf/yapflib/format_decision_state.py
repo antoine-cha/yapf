@@ -323,6 +323,10 @@ class FormatDecisionState(object):
           # line and it's not a function call.
           if self._FitsOnLine(previous, previous.matching_bracket):
             return False
+        elif not self._FitsOnLine(previous, previous.matching_bracket):
+          if (self.column_limit - self.column) / float(self.column_limit) < 0.3:
+            # Try not to squish all of the arguments off to the right.
+            return True
       else:
         # Split after the opening of a container if it doesn't fit on the
         # current line or if it has a comment.
